@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.autunomy.mapper.ManagerMapper">
+    <select id="queryManagerByUsernameAndPassword" resultType="top.autunomy.pojo.Manager">
+        select * from manager where username=#{username} and password = #{password};
+    </select>
+
+    <select id="judgeManagerIsRootById">
+        select is_root from manager where id=#{id};
+    </select>
+
+    <select id="queryManagerById" resultType="top.autunomy.pojo.Manager">
+        select * from manager where id=#{id};
+    </select>
+
+    <select id="queryAllManager" resultType="top.autunomy.pojo.Manager">
+        select * from manager;
+    </select>
+
+    <insert id="insertCommonManager" parameterType="top.autunomy.pojo.Manager">
+        insert into manager value(#{id},#{username},#{password},#{is_root});
+    </insert>
+
+    <insert id="insertRootManager" parameterType="top.autunomy.pojo.Manager">
+        insert into manager value(#{id},#{username},#{password},#{is_root});
+    </insert>
+
+    <delete id="deleteManager">
+        delete from manager where id=#{id};
+    </delete>
+
+    <update id="updateManagerPassword" parameterType="top.autunomy.pojo.Manager">
+        update manager
+        set password=#{password}
+        where id=#{id}
+    </update>
+
+    <update id="updateCommonManagerToRootManager" parameterType="top.autunomy.pojo.Manager">
+        update manager
+        set is_root=#{is_root}
+        where id=#{id}
+    </update>
+</mapper>

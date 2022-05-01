@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.autunomy.mapper.IOEMapper">
+
+    <resultMap id="userMap" type="ioe">
+        <result property="id" column="id"/>
+        <result property="user_card" column="user_card"/>
+        <result property="expressdeliveryid" column="expressdeliveryid"/>
+        <result property="status" column="status"/>
+        <result property="date" column="date"/>
+        <association property="user" javaType="user">
+            <result property="user_id" column="user_id"/>
+            <result property="user_name" column="user_name"/>
+            <result property="user_card" column="user_card"/>
+            <result property="user_address" column="user_address"/>
+            <result property="user_phone" column="user_phone"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAllMessage" resultMap="userMap">
+        select * from ioe i,user u where i.user_card = u.user_card;
+    </select>
+
+    <select id="queryByID" resultMap="userMap">
+        select * from ioe i,user u where i.id=#{id} and i.user_card = u.user_card;
+    </select>
+
+    <select id="queryByUserCard" resultMap="userMap">
+        select * from ioe i,user u where i.user_card=#{user_card} and i.user_card = u.user_card;
+    </select>
+
+    <insert id="insertMessage" parameterType="ioe">
+        insert into ioe
+        value(#{id},#{user_card},#{expressdeliveryid},#{status},#{date});
+    </insert>
+
+    <update id="updateStatus" parameterType="ioe">
+        update ioe set status=#{status} where id=#{id};
+    </update>
+
+    <update id="updateExpressDeliveryId" parameterType="ioe">
+        update ioe set expressdeliveryid=#{expressdeliveryid} where id=#{id};
+    </update>
+
+    <update id="updateOrder" parameterType="ioe">
+        update ioe set user_card=#{user_card},expressdeliveryid=#{expressdeliveryid} where id=#{id};
+    </update>
+
+    <delete id="deleteByID">
+        delete from ioe where id=#{id};
+    </delete>
+
+</mapper>
